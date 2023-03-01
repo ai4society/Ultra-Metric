@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 metrics/.DS_Store
 .DS_Store
+*.json

@@ -92,7 +92,7 @@ class MetricScorer:
                     self.researchers.pop(j)
                 self.calc_coverage()
                 
-                # if coverage remains the same after the member after removed, increment the value of k by one
+                # if coverage remains the same after the member has been removed, increment the value of k by one
                 if og_coverage==0 and og_coverage <= self.coverage:
                     self.krobust += 1
                     break

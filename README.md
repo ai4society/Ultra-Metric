@@ -33,7 +33,7 @@ Code and examples for how to use metrics for the output of any team / group / it
 
 Problem: *Evaluate the potential of each team using the above-mentioned metrics.*
 
-| Metric (right) / Team (below) | T1                                                     | T2                     | T3          | T4              |
+| Team (right) / Metric (below) | T1                                                     | T2                     | T3          | T4              |
 | ----------------------------- | ------------------------------------------------------ | ---------------------- | ----------- | --------------- |
 | $π_{redundancy}$              | $1\times1+1\times1=2$                                            | $1\times2+1\times2+1\times2=6$        | $1\times2+1\times2=4$ | $1\times2+1\times2+1\times2=6$ |
 | $π_{setsize}$                 | $1$                                                      | $3$                      | $2$           | $3$               |

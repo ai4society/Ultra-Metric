@@ -17,7 +17,7 @@ Code and examples for how to use metrics for the output of any team / group / it
 
 ## Example
 
-- Demand: {$s_1$, $s_2$, $s_3$, $s_4$}
+- Demand: $\{s_1, s_2, ..., s_i\}$
 - Supply:
 	- Consider the following teams in this format: *team_name = {set_of_researchers}*
 		- $T_1 = \{a\}$

@@ -1,5 +1,7 @@
 # Ultra-Metric
 Code and examples for how to use metrics for the output of any team / group / item recommendation system.
+- [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py) - code/implementation for each of the 4 metrics described below
+- [metrics_notebook.ipynb](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_notebook.ipynb) - shows example for how to use *metrics_scorer.py.*
 
 ## Metrics Used
 - Redundancy: what is the percentage of skills shared amongst 2+ researchers? (How many researchers have common skills?)
@@ -39,8 +41,3 @@ Problem: *Evaluate the potential of each team using the above-mentioned metrics.
 | $π_{setsize}$                 | $1$                                                      | $3$                      | $2$           | $3$               |
 | $π_{coverage}$                | $-2$ *(indicates that this team is short of two skills)* | $0$                      | $0$           | $-1$              |
 | $π_{k-robustness}$            | $0$ (you can't remove anyone)                            | $1$ (you can remove *c*) | $0$           | $0$                |
-
-
-## Files Present
-- [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py) - code/implementation for the 4 metrics described above
-- [metrics_notebook.ipynb](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_notebook.ipynb) - shows example for how to use *metrics_scorer.py.*

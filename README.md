@@ -39,3 +39,8 @@ Problem: *Evaluate the potential of each team using the above-mentioned metrics.
 | $π_{setsize}$                 | $1$                                                      | $3$                      | $2$           | $3$               |
 | $π_{coverage}$                | $-2$ *(indicates that this team is short of two skills)* | $0$                      | $0$           | $-1$              |
 | $π_{k-robustness}$            | $0$ (you can't remove anyone)                            | $1$ (you can remove *c*) | $0$           | $0$                |
+
+
+## Files Present
+- [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py) - code/implementation for the 4 metrics described above
+- [metrics_notebook.ipynb](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_notebook.ipynb) - shows example for how to use *metrics_scorer.py.*

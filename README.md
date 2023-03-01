@@ -13,7 +13,7 @@ Code and examples for how to use metrics for the output of any team / group / it
 	- { $s_1$, $s_2$, ..., $s_i$}
 - Supply: *What resources do we have available?*
 	- Team of researchers $T_i = {a, b, c, d, ..., N}$
-	- Researcher skills = {a: [ $s_1$, $s_2$, ..., $s_i$], b: [$s_1$, $s_2$, ..., $s_j$], ..., N: [$s_1$, $s_2$, ..., $s_k$]}
+	- Researcher skills = {a: [$s_1$, $s_2$, ..., $s_i$], b: [$s_1$, $s_2$, ..., $s_j$], ..., N: [$s_1$, $s_2$, ..., $s_k$]}
 
 ## Example
 

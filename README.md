@@ -36,6 +36,6 @@ Problem: *Evaluate the potential of each team using the above-mentioned metrics.
 | Metric (right) / Team (below) | T1                                                     | T2                     | T3          | T4              |
 | ----------------------------- | ------------------------------------------------------ | ---------------------- | ----------- | --------------- |
 | $π_{redundancy}$              | $1\times1+1\times1=2$                                            | $1\times2+1\times2+1\times2=6$        | $1\times2+1\times2=4$ | $1\times2+1\times2+1\times2=6$ |
-| $π_{setsize}$                 | 1                                                      | 3                      | 2           | 3               |
-| $π_{coverage}$                | -2 *(indicates that this team is short of two skills)* | 0                      | 0           | -1              |
-| $π_{k-robustness}$            | 0 (you can't remove anyone)                            | 1 (you can remove *c*) | 0           | 0                |
+| $π_{setsize}$                 | $1$                                                      | $3$                      | $2$           | $3$               |
+| $π_{coverage}$                | $-2$ *(indicates that this team is short of two skills)* | $0$                      | $0$           | $-1$              |
+| $π_{k-robustness}$            | $0$ (you can't remove anyone)                            | $1$ (you can remove *c*) | $0$           | $0$                |

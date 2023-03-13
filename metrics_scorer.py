@@ -2,6 +2,8 @@
 import itertools
 
 # For the metrics scorer
+
+
 class MetricScorer:
 
     # demand
@@ -17,6 +19,7 @@ class MetricScorer:
     setsize = 0
     coverage = 0.0
     krobust = 0
+    goodness = 0
 
     def __init__(self):
         print("Metrics class instantiated")
@@ -29,6 +32,7 @@ class MetricScorer:
         self.setsize = 0
         self.coverage = 0.0
         self.krobust = 0
+        self.goodness = 0
         print("Metrics class reset")
 
     def calc_redundancy(self):
@@ -44,26 +48,26 @@ class MetricScorer:
                 self.redundancy += 1*len(self.researchers[i])
             except KeyError:
                 raise Exception('Researcher "+i+" not found!')
-            
+
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
         
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.
         """
-        max_redundancy=len(self.demand)*len(self.researchers.keys())
-        self.redundancy=(self.redundancy-1)/(max_redundancy-1)
+        max_redundancy = len(self.demand)*len(self.researchers.keys())
+        self.redundancy = (self.redundancy-1)/(max_redundancy-1)
 
     def calc_setsize(self):
         """
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.) 
         """
-        self.setsize = len(self.team) 
-        
+        self.setsize = len(self.team)
+
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
         """
-        self.setsize=(self.setsize-1)/(5-1)         
+        self.setsize = (self.setsize-1)/(5-1)
 
     def calc_coverage(self):
         """
@@ -82,12 +86,13 @@ class MetricScorer:
                 if j not in covered_skills and j in self.demand:
                     covered_skills.append(j)
         self.coverage = -1*(len(self.demand)-len(set(covered_skills)))
-        
+
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
         """
-        min_coverage=-1*len(self.demand)  # minimum coverage score that a team could get, i.e., when no skills are satisfied 
-        self.coverage=(self.coverage-min_coverage)/(0-min_coverage)         
+        min_coverage = -1 * \
+            len(self.demand)  # minimum coverage score that a team could get, i.e., when no skills are satisfied
+        self.coverage = (self.coverage-min_coverage)/(0-min_coverage)
 
     def calc_krobust(self):
         """
@@ -96,10 +101,10 @@ class MetricScorer:
         # store original values
         og_team = self.team.copy()
         og_researchers = self.researchers.copy()
-        
+
         self.calc_coverage()
         og_coverage = self.coverage
-        
+
         # generate combinations of team members of all sizes i (1 to N)
         for i in range(1, len(og_team)):
             # iterate through each combination of subsets and measure the coverage of team after the member has been removed
@@ -111,32 +116,50 @@ class MetricScorer:
                     self.team.remove(j)
                     self.researchers.pop(j)
                 self.calc_coverage()
-                
+
                 # if coverage remains the same after the member has been removed, increment the value of k by one
-                if og_coverage==0 and og_coverage <= self.coverage:
+                if og_coverage == 0 and og_coverage <= self.coverage:
                     self.krobust += 1
                     break
-                
+
         # restore the old values of team, researchers, and coverage
         self.team = og_team.copy()
         self.researchers = og_researchers.copy()
         self.coverage = og_coverage
-        
+
         """
         Normalize metric: 
         For k-robustness, instead of a scale from [0,1], we instead use 1 if k>0 or 0 otherwise.
         """
-        if self.krobust>0:
-            self.krobust=1
-        
+        if self.krobust > 0:
+            self.krobust = 1
+
+    def goodness_measure(self):
+        """
+        Total score = 1*(sum of all good metrics) - 1(sum of all bad metrics)
+        """
+        # score should initially be as close to zero as possible
+        self.goodness = (self.coverage+self.krobust) - \
+            (self.redundancy + self.setsize)
+
+        """
+        Normalize the score. The worst case would be [horrible coverage/robustness, large redundancy/set_size].
+        The best case would be [complete coverage/robustness, minimal redundancy/set_size]
+        """
+        min_goodness = -2
+        max_goodness = 2
+        self.goodness = (self.goodness-min_goodness) / \
+            (max_goodness-min_goodness)
+
     def run_metrics(self):
         # run metrics
         self.calc_redundancy()
         self.calc_setsize()
         self.calc_coverage()
         self.calc_krobust()
+        self.goodness_measure()
         print("Metrics run")
-        
+
     def printScorer(self):
         print("Demand:\t", self.demand)
         print("Supply:\tTeam members:\t", self.team)
@@ -147,3 +170,4 @@ class MetricScorer:
         print("Set size:\t", self.setsize)
         print("Coverage:\t", self.coverage)
         print("k-Robustness:\t", self.krobust)
+        print("Total goodness score:\t", self.goodness)

@@ -44,12 +44,26 @@ class MetricScorer:
                 self.redundancy += 1*len(self.researchers[i])
             except KeyError:
                 raise Exception('Researcher "+i+" not found!')
+            
+        """
+        Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
+        
+        Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
+        If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.
+        """
+        max_redundancy=len(self.demand)*len(self.researchers.keys())
+        self.redundancy=(self.redundancy-1)/(max_redundancy-1)
 
     def calc_setsize(self):
         """
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.) 
         """
-        self.setsize = len(self.team)
+        self.setsize = len(self.team) 
+        
+        """
+        Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
+        """
+        self.setsize=(self.setsize-1)/(5-1)         
 
     def calc_coverage(self):
         """
@@ -68,6 +82,12 @@ class MetricScorer:
                 if j not in covered_skills and j in self.demand:
                     covered_skills.append(j)
         self.coverage = -1*(len(self.demand)-len(set(covered_skills)))
+        
+        """
+        Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
+        """
+        min_coverage=-1*len(self.demand)  # minimum coverage score that a team could get, i.e., when no skills are satisfied 
+        self.coverage=(self.coverage-min_coverage)/(0-min_coverage)         
 
     def calc_krobust(self):
         """
@@ -101,14 +121,22 @@ class MetricScorer:
         self.team = og_team.copy()
         self.researchers = og_researchers.copy()
         self.coverage = og_coverage
-                
+        
+        """
+        Normalize metric: 
+        For k-robustness, instead of a scale from [0,1], we instead use 1 if k>0 or 0 otherwise.
+        """
+        if self.krobust>0:
+            self.krobust=1
+        
     def run_metrics(self):
+        # run metrics
         self.calc_redundancy()
         self.calc_setsize()
         self.calc_coverage()
         self.calc_krobust()
         print("Metrics run")
-
+        
     def printScorer(self):
         print("Demand:\t", self.demand)
         print("Supply:\tTeam members:\t", self.team)

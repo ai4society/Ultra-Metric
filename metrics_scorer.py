@@ -67,7 +67,7 @@ class MetricScorer:
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
         """
-        self.setsize = (self.setsize-1)/(5-1)
+        self.setsize = (self.setsize)/(5)
 
     def calc_coverage(self):
         """

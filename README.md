@@ -68,7 +68,7 @@ Each metric has a weight. By default, they're:
 - Set size: -1
 - Coverage: 1
 - k-Robustness: 1
-By default, high *redundancy* and *set size* are considered to be "negative" traits, hence the negative weight. But users can change this if they wish using *[set_new_weights()](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py#:~:text=def-,set_new_weights,-(self%2C)* in [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py).
+By default, high *redundancy* and *set size* are considered to be "negative" traits, hence the negative weight. But users can change this if they wish using *set_new_weights()* in [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py).
 
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 

@@ -49,9 +49,9 @@ We normalize our data to stay between [0,1] so that the measure is consistent ac
 - $min(x)$: what is the minimum value possible from this metric?
 - $max(x)$: what is the maximum value possible from this metric? For each of the following:
 	- $maxRedundancy$ = (total number of demand skills) * (number of researchers)              *//where each researcher of the team has all the demand skills*  
-	- *max\_setsize* = 5                 *// default value (temporarily)*
-	- *max\_coverage* = (total number of demand skills)
-	- *max\_krobust* = 1               *// for now*
+	- $maxSetsize$ = 5                 *// default value (temporarily)*
+	- $maxCoverage$ = (total number of demand skills)
+	- $maxKrobust$ = 1               *// for now*
 Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 

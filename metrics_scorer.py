@@ -150,7 +150,7 @@ class MetricScorer:
             self.krobust = 1
 
     def set_new_weights(self, weights):
-        self.w_r, self.w_s, self.w_c, self.w_k = weights.unpack()
+        self.w_r, self.w_s, self.w_c, self.w_k = weights
 
     def goodness_measure(self):
         """

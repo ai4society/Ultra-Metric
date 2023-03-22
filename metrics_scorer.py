@@ -170,8 +170,6 @@ class MetricScorer:
         max_goodness=max([self.w_r, self.w_s, self.w_c,self.w_k])
         self.goodness = (self.goodness-min_goodness) / \
             (max_goodness-min_goodness)
-        #self.goodness = self.goodness / \
-        #    sum([self.w_r, self.w_s, self.w_c, self.w_k])
 
     def run_metrics(self):
         # run metrics

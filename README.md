@@ -48,17 +48,17 @@ We normalize our data to stay between [0,1] so that the measure is consistent ac
 - $x_i$ : value of metric before normalization
 - $min(x)$: what is the minimum value possible from this metric?
 - $max(x)$: what is the maximum value possible from this metric? For each of the following:
-	- *max\_redundancy* = (total number of demand skills) * (number of researchers)              *//where each researcher of the team has all the demand skills*  
-	- $max\_setsize$ = 5                 *// default value (temporarily)*
-	- $max\_coverage$ = (total number of demand skills)
-	- $max\_krobust$ = 1               *// for now*
+	- $maxRedundancy$ = (total number of demand skills) * (number of researchers)              *//where each researcher of the team has all the demand skills*  
+	- *max\_setsize* = 5                 *// default value (temporarily)*
+	- *max\_coverage* = (total number of demand skills)
+	- *max\_krobust* = 1               *// for now*
 Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 
-| $π_{redundancy\_norm}$              | $(2-1)/(len(demand)\cdot len(team\_size) -1) = (2-1)/(4*1-1) = 0.333$| 
-| $π_{setsize\_norm}$                 | $1/5 = 0.2$                                                      | 
-| $π_{coverage\_norm}$                | $2/4 = 0.50$ |
-| $π_{k-robustness\_norm}$            | $0$ (you can't remove anyone)                            |
+| $π_{redundancyNorm}$              | $(2-1)/(len(demand)\cdot len(team\_size) -1) = (2-1)/(4*1-1) = 0.333$| 
+| $π_{setsizeNorm}$                 | $1/5 = 0.2$                                                      | 
+| $π_{coverageNorm}$                | $2/4 = 0.50$ |
+| $π_{k-robustnessNorm}$            | $0$ (you can't remove anyone)                            |
 
 **Computing the Overall Goodness Metric:**
 Each metric has a weight. By default, they're:

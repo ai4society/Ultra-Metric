@@ -63,7 +63,7 @@ Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 | $π_{k-robustnessNorm}$            | $0$ (you can't remove anyone)                            |
 
 ### **Computing the Overall Goodness Metric:**
-Each metric has a weight. By default, they're:
+**Each metric has a weight. By default, they're:**
 - Redundancy: -1
 - Set size: -1
 - Coverage: 1
@@ -75,7 +75,7 @@ By default, high *redundancy* and *set size* are considered to be "negative" tra
 | ----------------------------- | ------------------------------------------------------ | 
 | $π_{overall\_goodness}$              | $((-1\cdot0.333 + -1\cdot0.2 + 1\cdot0.5 + 1\cdot0)+1)/(1+1)=0.4833$| 
 
-What if you set different weights?
+**What if you set different weights?**
 - Redundancy: 0.11
 - Set size: 0.09
 - Coverage: 0.8

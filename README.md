@@ -35,7 +35,7 @@ Code and examples for how to use metrics for the output of any team / group / it
 
 Problem: *Evaluate the potential of each team using the above-mentioned metrics.*
 
-**Before Normalization:**
+### **Before Normalization:**
 | Team (right) / Metric (below) | $T_1$                                                     | $T_2$                     | $T_3$          | $T_4$              |
 | ----------------------------- | ------------------------------------------------------ | ---------------------- | ----------- | --------------- |
 | $π_{redundancy}$              | $1\times1+1\times1=2$                                            | $1\times2+1\times2+1\times2=6$        | $1\times2+1\times2=4$ | $1\times2+1\times2+1\times2=6$ |
@@ -43,7 +43,7 @@ Problem: *Evaluate the potential of each team using the above-mentioned metrics.
 | $π_{coverage}$                | $-2$ *(indicates that this team is short of two skills)* | $0$                      | $0$           | $-1$              |
 | $π_{k-robustness}$            | $0$ (you can't remove anyone)                            | $1$ (you can remove *c*) | $0$           | $0$                |
 
-**After Normalization:**
+### **After Normalization:**
 We normalize our data to stay between [0,1] so that the measure is consistent across different teams, team members, team skillsets, etc. Consider:
 - $x_i$ : value of metric before normalization
 - $min(x)$: what is the minimum value possible from this metric?
@@ -62,7 +62,7 @@ Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 | $π_{coverageNorm}$                | $2/4 = 0.50$ |
 | $π_{k-robustnessNorm}$            | $0$ (you can't remove anyone)                            |
 
-**Computing the Overall Goodness Metric:**
+### **Computing the Overall Goodness Metric:**
 Each metric has a weight. By default, they're:
 - Redundancy: -1
 - Set size: -1

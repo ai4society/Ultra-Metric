@@ -1,5 +1,6 @@
 # Imports
 import itertools
+from tabulate import tabulate
 
 # For the metrics scorer
 
@@ -21,18 +22,32 @@ class MetricScorer:
     krobust = 0
     goodness = 0
 
+    # weights for metrics (redundancy, setsize, coverage, k-robustness)
+    w_r = -1
+    w_s = -1
+    w_c = 1
+    w_k = 1
+
     def __init__(self):
         print("Metrics class instantiated")
 
     def reset(self):
         self.demand = []
+
         self.team = []
         self.researchers = {}
+
         self.redundancy = 0.0
         self.setsize = 0
         self.coverage = 0.0
         self.krobust = 0
         self.goodness = 0
+
+        self.w_r = -1
+        self.w_s = -1
+        self.w_c = 1
+        self.w_k = 1
+
         print("Metrics class reset")
 
     def calc_redundancy(self):
@@ -51,23 +66,23 @@ class MetricScorer:
 
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
-        
+
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.
         """
         max_redundancy = len(self.demand)*len(self.researchers.keys())
         self.redundancy = (self.redundancy-1)/(max_redundancy-1)
 
-    def calc_setsize(self):
+    def calc_setsize(self, size=5):
         """
-        Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.) 
+        Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.)
         """
         self.setsize = len(self.team)
 
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
         """
-        self.setsize = (self.setsize)/(5)
+        self.setsize = (self.setsize)/(size)
 
     def calc_coverage(self):
         """
@@ -118,7 +133,7 @@ class MetricScorer:
                 self.calc_coverage()
 
                 # if coverage remains the same after the member has been removed, increment the value of k by one
-                if og_coverage == 0 and og_coverage <= self.coverage:
+                if og_coverage == 0 and og_coverage <= self.coverage and self.setsize>=5:
                     self.krobust += 1
                     break
 
@@ -128,28 +143,35 @@ class MetricScorer:
         self.coverage = og_coverage
 
         """
-        Normalize metric: 
+        Normalize metric:
         For k-robustness, instead of a scale from [0,1], we instead use 1 if k>0 or 0 otherwise.
         """
         if self.krobust > 0:
             self.krobust = 1
 
+    def set_new_weights(self, weights):
+        self.w_r, self.w_s, self.w_c, self.w_k = weights.unpack()
+
     def goodness_measure(self):
         """
-        Total score = 1*(sum of all good metrics) - 1(sum of all bad metrics)
+        Total score = SUM(w_i*metric_i)
         """
-        # score should initially be as close to zero as possible
-        self.goodness = (self.coverage+self.krobust) - \
-            (self.redundancy + self.setsize)
+        self.goodness = self.w_r*self.redundancy + self.w_s * \
+            self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
 
         """
-        Normalize the score. The worst case would be [horrible coverage/robustness, large redundancy/set_size].
+        Normalize the score. 
+        
+        At default weights: {w_r: -1, w_s: -1, w_c: 1, w_k: 1}:
+        The worst case would be [horrible coverage/robustness, large redundancy/set_size].
         The best case would be [complete coverage/robustness, minimal redundancy/set_size]
         """
-        min_goodness = -2
-        max_goodness = 2
+        min_goodness=min([self.w_r, self.w_s, self.w_c,self.w_k])
+        max_goodness=max([self.w_r, self.w_s, self.w_c,self.w_k])
         self.goodness = (self.goodness-min_goodness) / \
             (max_goodness-min_goodness)
+        #self.goodness = self.goodness / \
+        #    sum([self.w_r, self.w_s, self.w_c, self.w_k])
 
     def run_metrics(self):
         # run metrics
@@ -161,13 +183,20 @@ class MetricScorer:
         print("Metrics run")
 
     def printScorer(self):
-        print("Demand:\t", self.demand)
-        print("Supply:\tTeam members:\t", self.team)
-        print("\tResearchers:\t", self.researchers)
-
+        print("--------------------DEMAND--------------------")
+        print("Skills needed:\t", self.demand)
         print("\n")
+        
+        print("--------------------SUPPLY--------------------")
+        print("Team members:\t", self.team)
+        print("Researchers:\t", self.researchers)
+        print("\n")
+        
+        print("--------------------METRICS--------------------")
         print("Redundancy:\t", self.redundancy)
         print("Set size:\t", self.setsize)
         print("Coverage:\t", self.coverage)
         print("k-Robustness:\t", self.krobust)
         print("Total goodness score:\t", self.goodness)
+    
+    

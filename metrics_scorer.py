@@ -199,4 +199,7 @@ class MetricScorer:
         print("k-Robustness:\t", self.krobust)
         print("Total goodness score:\t", self.goodness)
     
-    
+    def printScorerTable(self):
+        table=[["Team (right)\nMetric(below)", "T1"], ["Redundancy", self.redundancy], ["Set Size", self.setsize], ["Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness", self.goodness]]
+            
+        print(tabulate(table,headers='firstrow', tablefmt='grid'))

@@ -73,7 +73,7 @@ By default, high *redundancy* and *set size* are considered to be "negative" tra
 
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 
-| $π_{overall\_goodness}$              | $((-1\cdot0.333 + -1\cdot0.2 + 1\cdot0.5 + 1\cdot0)+1)/(1+1)=0.4833$| 
+| $π_{overallGoodness}$              | $((-1\cdot0.333 + -1\cdot0.2 + 1\cdot0.5 + 1\cdot0)+1)/(1+1)=0.4833$| 
 
 **What if you set different weights?**
 - Redundancy: 0.11
@@ -83,4 +83,4 @@ By default, high *redundancy* and *set size* are considered to be "negative" tra
 
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 
-| $π_{overall\_goodness}$              | $((0.11\cdot0.333 + 0.09\cdot0.2 + 0.8\cdot0.5 + 0.0\cdot0)-0.00)/(1.0-0.0)=0.5683$| 
+| $π_{overallGoodness}$              | $((0.11\cdot0.333 + 0.09\cdot0.2 + 0.8\cdot0.5 + 0.0\cdot0)-0.00)/(1.0-0.0)=0.5683$| 

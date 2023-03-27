@@ -133,7 +133,7 @@ class MetricScorer:
                 self.calc_coverage()
 
                 # if coverage remains the same after the member has been removed, increment the value of k by one
-                if og_coverage == 0 and og_coverage <= self.coverage and self.setsize>=5:
+                if og_coverage == 0 and og_coverage <= self.coverage and self.setsize >= 5:
                     self.krobust += 1
                     break
 
@@ -150,7 +150,14 @@ class MetricScorer:
             self.krobust = 1
 
     def set_new_weights(self, weights):
+        """Adjust the weights (only if negative weights are present): this is used to help normalize them."""
+        if min(weights)<0:
+            range_of_weights = max(weights) - min(weights)
+            for i in range(len(weights)):
+                weights[i] += range_of_weights
+
         self.w_r, self.w_s, self.w_c, self.w_k = weights
+        print(weights)
 
     def goodness_measure(self):
         """
@@ -158,6 +165,8 @@ class MetricScorer:
         """
         self.goodness = self.w_r*self.redundancy + self.w_s * \
             self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
+            
+        print(self.goodness)
 
         """
         Normalize the score. 
@@ -166,10 +175,11 @@ class MetricScorer:
         The worst case would be [horrible coverage/robustness, large redundancy/set_size].
         The best case would be [complete coverage/robustness, minimal redundancy/set_size]
         """
-        min_goodness=min([self.w_r, self.w_s, self.w_c,self.w_k])
-        max_goodness=max([self.w_r, self.w_s, self.w_c,self.w_k])
-        self.goodness = (self.goodness-min_goodness) / \
-            (max_goodness-min_goodness)
+        self.goodness = self.goodness/(self.w_r+self.w_s+self.w_c+self.w_k)
+        # min_goodness=min([self.w_r, self.w_s, self.w_c,self.w_k])
+        # max_goodness=max([self.w_r, self.w_s, self.w_c,self.w_k])
+        # self.goodness = (self.goodness-min_goodness) / \
+        #    (max_goodness-min_goodness)
 
     def run_metrics(self):
         # run metrics
@@ -184,20 +194,21 @@ class MetricScorer:
         print("--------------------DEMAND--------------------")
         print("Skills needed:\t", self.demand)
         print("\n")
-        
+
         print("--------------------SUPPLY--------------------")
         print("Team members:\t", self.team)
         print("Researchers:\t", self.researchers)
         print("\n")
-        
+
         print("--------------------METRICS--------------------")
         print("Redundancy:\t", self.redundancy)
         print("Set size:\t", self.setsize)
         print("Coverage:\t", self.coverage)
         print("k-Robustness:\t", self.krobust)
         print("Total goodness score:\t", self.goodness)
-    
+
     def printScorerTable(self):
-        table=[["Team (right)\nMetric(below)", "T1"], ["Redundancy", self.redundancy], ["Set Size", self.setsize], ["Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness", self.goodness]]
-            
-        print(tabulate(table,headers='firstrow', tablefmt='grid'))
+        table = [["Team (right)\nMetric(below)", "T1"], ["Redundancy", self.redundancy], ["Set Size", self.setsize], [
+            "Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness", self.goodness]]
+
+        print(tabulate(table, headers='firstrow', tablefmt='grid'))

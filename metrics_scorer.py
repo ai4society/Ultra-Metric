@@ -23,10 +23,10 @@ class MetricScorer:
     goodness = 0
 
     # weights for metrics (redundancy, setsize, coverage, k-robustness)
-    w_r = -1
-    w_s = -1
-    w_c = 1
-    w_k = 1
+    w_r = 0.1
+    w_s = 0.1
+    w_c = 0.4
+    w_k = 0.4
 
     def __init__(self):
         print("Metrics class instantiated")
@@ -163,14 +163,23 @@ class MetricScorer:
             range_of_weights = max(weights) - min(weights)
             for i in range(len(weights)):
                 weights[i] += range_of_weights
+            
+        # if min(weights) is still negative => all weights are equal
+        if min(weights)<0:
+            for i in range(len(weights)):
+                weights[i] *= -1
 
-        self.w_r, self.w_s, self.w_c, self.w_k = weights
-        print(weights)
+        """Normalize the weights."""
+        self.w_r=weights[0]/sum(weights)
+        self.w_s=weights[1]/sum(weights)
+        self.w_c=weights[2]/sum(weights)
+        self.w_k=weights[3]/sum(weights)
 
     def goodness_measure(self):
         """
         Total score = SUM(w_i*metric_i)
         """
+        
         self.goodness = self.w_r*self.redundancy + self.w_s * \
             self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
             

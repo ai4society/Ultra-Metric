@@ -57,10 +57,19 @@ class MetricScorer:
         """
         if self.team == [] or self.researchers == []:
             raise Exception('Team and list of researchers cannot be empty!')
+        
+        redundant_skills=[]
+        skills_covered=[]
+        
         for i in self.team:
             try:
-                # add the number of skills each researcher has
-                self.redundancy += 1*len(self.researchers[i])
+                # check the number of redundant skills
+                for j in self.researchers[i]:
+                    if j in self.demand and j not in skills_covered:   # check if skill is relevant to self.demand(), and if it's a redundant one or not
+                        skills_covered.append(j)
+                    else:
+                        if j not in redundant_skills:
+                            redundant_skills.append(j)
             except KeyError:
                 raise Exception('Researcher "+i+" not found!')
 
@@ -70,8 +79,7 @@ class MetricScorer:
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.
         """
-        max_redundancy = len(self.demand)*len(self.researchers.keys())
-        self.redundancy = (self.redundancy-1)/(max_redundancy-1)
+        self.redundancy = len(redundant_skills)/len(self.demand)
 
     def calc_setsize(self, size=5):
         """

@@ -65,11 +65,12 @@ class MetricScorer:
             try:
                 # check the number of redundant skills
                 for j in self.researchers[i]:
-                    if j in self.demand and j not in skills_covered:   # check if skill is relevant to self.demand(), and if it's a redundant one or not
-                        skills_covered.append(j)
-                    else:
-                        if j not in redundant_skills:
-                            redundant_skills.append(j)
+                    if j in self.demand:
+                        if j not in skills_covered:   # check if skill is relevant to self.demand(), and if it's a redundant one or not
+                            skills_covered.append(j)
+                        elif j in skills_covered:
+                            if j not in redundant_skills:
+                                redundant_skills.append(j)
             except KeyError:
                 raise Exception('Researcher "+i+" not found!')
 
@@ -175,6 +176,10 @@ class MetricScorer:
         self.w_c=weights[2]/sum(weights)
         self.w_k=weights[3]/sum(weights)
 
+    def get_weights(self):
+        """Return existing weights."""
+        return [self.w_r, self.w_s, self.w_c, self.w_k]
+    
     def goodness_measure(self):
         """
         Total score = SUM(w_i*metric_i)

@@ -20,7 +20,7 @@ class MetricScorer:
     setsize = 0
     coverage = 0.0
     krobust = 0
-    goodness = 0
+    goodness = 0.0
 
     # weights for metrics (redundancy, setsize, coverage, k-robustness)
     w_r = 0.1

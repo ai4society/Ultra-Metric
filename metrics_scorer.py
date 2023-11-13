@@ -55,7 +55,7 @@ class MetricScorer:
         Given RFP requirements (demand[]) and candidate team (team[]), check whether there are any redundant skills amongst the members (using researchers{}).
         --> This method currently may also take irrelevant skills into consideration.
         """
-        if self.team == [] or self.researchers == []:
+        if self.team == [] or self.researchers == {}:
             raise Exception('Team and list of researchers cannot be empty!')
         
         redundant_skills=[]

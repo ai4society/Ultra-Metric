@@ -13,7 +13,7 @@ class MetricScorer:
 
     # supply
     team = []
-    researchers = {}
+    team_skills = {}
 
     # metrics
     redundancy = 0.0
@@ -35,7 +35,7 @@ class MetricScorer:
         self.demand = []
 
         self.team = []
-        self.researchers = {}
+        self.team_skills = {}
 
         self.redundancy = 0.0
         self.setsize = 0
@@ -52,11 +52,11 @@ class MetricScorer:
 
     def calc_redundancy(self):
         """
-        Given RFP requirements (demand[]) and candidate team (team[]), check whether there are any redundant skills amongst the members (using researchers{}).
+        Given RFP requirements (demand[]) and candidate team (team[]), check whether there are any redundant skills amongst the members (using team_skills{}).
         --> This method currently may also take irrelevant skills into consideration.
         """
-        if self.team == [] or self.researchers == {}:
-            raise Exception('Team and list of researchers cannot be empty!')
+        if self.team == [] or self.team_skills == {}:
+            raise Exception('Team and list of team_skills cannot be empty!')
         
         redundant_skills=[]
         skills_covered=[]
@@ -64,7 +64,7 @@ class MetricScorer:
         for i in self.team:
             try:
                 # check the number of redundant skills
-                for j in self.researchers[i]:
+                for j in self.team_skills[i]:
                     if j in self.demand:
                         if j not in skills_covered:   # check if skill is relevant to self.demand(), and if it's a redundant one or not
                             skills_covered.append(j)
@@ -100,13 +100,13 @@ class MetricScorer:
         If all skills are satisfied, coverage = 0.
         Else, the score will be negative. (The negative number will imply how many skills are still left to be fulfilled.)
         """
-        if self.team == [] or self.researchers == [] or self.demand == []:
+        if self.team == [] or self.team_skills == {} or self.demand == []:
             raise Exception(
-                'Team, list of researchers, and list of demanded skills cannot be empty!')
+                'Team, list of team_skills, and list of demanded skills cannot be empty!')
 
         covered_skills = []
         for i in self.team:
-            for j in self.researchers[i]:
+            for j in self.team_skills[i]:
                 if j not in covered_skills and j in self.demand:
                     covered_skills.append(j)
         self.coverage = -1*(len(self.demand)-len(set(covered_skills)))
@@ -124,7 +124,7 @@ class MetricScorer:
         """
         # store original values
         og_team = self.team.copy()
-        og_researchers = self.researchers.copy()
+        og_team_skills = self.team_skills.copy()
 
         self.calc_coverage()
         og_coverage = self.coverage
@@ -133,12 +133,12 @@ class MetricScorer:
         for i in range(1, len(og_team)):
             # iterate through each combination of subsets and measure the coverage of team after the member has been removed
             for subset in itertools.combinations(og_team, i):
-                # define new team/researchers without the above subset of members
+                # define new team/team_skills without the above subset of members
                 self.team = og_team.copy()
-                self.researchers = og_researchers.copy()
+                self.team_skills = og_team_skills.copy()
                 for j in subset:
                     self.team.remove(j)
-                    self.researchers.pop(j)
+                    self.team_skills.pop(j)
                 self.calc_coverage()
 
                 # if coverage remains the same after the member has been removed, increment the value of k by one
@@ -146,9 +146,9 @@ class MetricScorer:
                     self.krobust += 1
                     break
 
-        # restore the old values of team, researchers, and coverage
+        # restore the old values of team, team_skills, and coverage
         self.team = og_team.copy()
-        self.researchers = og_researchers.copy()
+        self.team_skills = og_team_skills.copy()
         self.coverage = og_coverage
 
         """
@@ -219,7 +219,7 @@ class MetricScorer:
 
         print("--------------------SUPPLY--------------------")
         print("Team members:\t", self.team)
-        print("Researchers:\t", self.researchers)
+        print("Team member skills:\t", self.team_skills)
         print("\n")
 
         print("--------------------METRICS--------------------")

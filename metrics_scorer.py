@@ -97,8 +97,7 @@ class MetricScorer:
         """
         Given RFP requirements (demand[]) and candidate team (team[]), check how many *required* skills are satisfied by the members. (Ignore skills irrelevant to RFP (demand).)
 
-        If all skills are satisfied, coverage = 0.
-        Else, the score will be negative. (The negative number will imply how many skills are still left to be fulfilled.)
+        Coverage is the percentage of all skills satisfied by the RFP. If all skills are satisfied, coverage = 100%.
         """
         if self.team == [] or self.team_skills == {} or self.demand == []:
             raise Exception(
@@ -109,14 +108,9 @@ class MetricScorer:
             for j in self.team_skills[i]:
                 if j not in covered_skills and j in self.demand:
                     covered_skills.append(j)
-        self.coverage = -1*(len(self.demand)-len(set(covered_skills)))
-
-        """
-        Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
-        """
-        min_coverage = -1 * \
-            len(self.demand)  # minimum coverage score that a team could get, i.e., when no skills are satisfied
-        self.coverage = (self.coverage-min_coverage)/(0-min_coverage)
+        
+        # measure coverage
+        self.coverage=len(covered_skills)/len(self.demand)
 
     def calc_krobust(self):
         """

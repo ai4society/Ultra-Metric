@@ -117,7 +117,7 @@ class MetricScorer:
                             covered_skills[skill]=max(covered_skills[skill], weight)  # take the max skill weight that everyone in a team has
 
         # measure coverage with respect to skill weights
-        self.coverage=sum(covered_skills.items())/len(self.demand)
+        self.coverage=sum(covered_skills.values())/len(self.demand)
         
     def calc_krobust(self):
         """

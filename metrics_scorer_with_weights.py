@@ -100,8 +100,8 @@ class MetricScorer:
         """
         Given RFP requirements (demand[]) and candidate team (team[]), check how many *required* skills are satisfied by the members. (Ignore skills irrelevant to RFP (demand).)
 
-        If all skills are satisfied, coverage = 0.
-        Else, the score will be negative. (The negative number will imply how many skills are still left to be fulfilled.)
+        Ideally, coverage is the percentage of all skills satisfied by the RFP. If all skills are satisfied, coverage = 100%. If all skills are satisfied, coverage = 100%.
+        With weighted skills, we take the max amount that is satisfied for each skill, and take the summation of all with respect to the RFP's demanded skills.
         """
         if self.team == [] or self.team_skills == {} or self.demand == []:
             raise Exception('Team, list of team_skills, and list of demanded skills cannot be empty!')

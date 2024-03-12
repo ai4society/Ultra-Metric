@@ -1,6 +1,7 @@
 # Imports
 import itertools
 from tabulate import tabulate
+import math
 
 # For the metrics scorer
 
@@ -71,19 +72,34 @@ class MetricScorer:
         if self.team == [] or self.team_skills == {}:
             raise Exception('Team and list of team_skills cannot be empty!')
         
+        # gather all skills, along with their weights
         self.redundant_skills = {}
-        for member, skills in self.team_skills.items():
-            for skill in skills:
-                if skill in self.demand and skill in self.redundant_skills:
-                    self.redundant_skills.append(skill)
-
+        for member, skills in self.team_skills.items():     # dict[member: {skill1: weight1, skill2: weight2, ...}, member2: {}, ...]
+                for skill, weight in skills.items():     # skill1: weight1
+                    if skill in self.demand:             # if the corresponding skill is being required by the RFP
+                        if skill not in self.redundant_skills:  
+                            self.redundant_skills[skill]=[weight]
+                        else:
+                            self.redundant_skills[skill].append(weight)
+        print(self.redundant_skills)
+        
+        # measure redundancy
+        redundancy=0
+        
+        for skill in self.redundant_skills:
+            if len(self.redundant_skills[skill])==1:
+                continue
+            else:
+                if max(self.redundant_skills[skill])>=1:
+                    redundancy+=sorted(self.redundant_skills[skill])[-2]  # take the second largest weight and use that for redundancy
+            
         """
         Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
 
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.
         """
-        self.redundancy = len(self.redundant_skills)/len(self.demand)
+        self.redundancy = redundancy/len(self.demand)
 
     def calc_setsize(self, size=5):
         """
@@ -186,31 +202,24 @@ class MetricScorer:
         Total score = SUM(w_i*metric_i)
         """
         
-        redundant_skills = []
-        total_weighted_redundancy = 0
-        total_weighted_setsize = 0
-        total_weighted_coverage = 0
-        total_weighted_krobust = 0
+        self.goodness = self.w_r*self.redundancy + self.w_s * \
+            self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
+            
+        print(self.goodness)
 
-        for member, skills in self.team_skills.items():
-            for skill in skills:
-                if skill in self.demand and skill in redundant_skills:
-                    redundant_skills.append(skill)
-
-        for member, skills in self.team_skills.items():
-            for skill, weight in skills.items():
-                if skill in self.demand:
-                    total_weighted_redundancy += weight if skill in redundant_skills else 0
-                    total_weighted_setsize += weight
-                    total_weighted_coverage += weight
-                    total_weighted_krobust += weight
-
-        total_weight = sum([weight for member, skills in self.team_skills.items() for skill, weight in skills.items() if skill in self.demand])
-        self.goodness = (self.w_r * total_weighted_redundancy + 
-                         self.w_s * total_weighted_setsize + 
-                         self.w_c * total_weighted_coverage + 
-                         self.w_k * total_weighted_krobust) / total_weight
+        """
+        Normalize the score. 
         
+        At default weights: {w_r: -1, w_s: -1, w_c: 1, w_k: 1}:
+        The worst case would be [horrible coverage/robustness, large redundancy/set_size].
+        The best case would be [complete coverage/robustness, minimal redundancy/set_size]
+        """
+        self.goodness = self.goodness/(self.w_r+self.w_s+self.w_c+self.w_k)
+        # min_goodness=min([self.w_r, self.w_s, self.w_c,self.w_k])
+        # max_goodness=max([self.w_r, self.w_s, self.w_c,self.w_k])
+        # self.goodness = (self.goodness-min_goodness) / \
+        #    (max_goodness-min_goodness)
+    
     def run_metrics(self):
         # run metrics
         self.calc_redundancy()

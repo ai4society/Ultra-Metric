@@ -93,7 +93,7 @@ class MetricScorer:
                     redundancy+=sorted(self.redundant_skills[skill])[-2]  # take the second largest weight and use that for redundancy
             
         """
-        Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
+        Normalize metric: number_and_weight_of_redundant_skills/total_number_of_RFP_skills
 
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.

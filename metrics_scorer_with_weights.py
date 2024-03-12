@@ -81,7 +81,6 @@ class MetricScorer:
                             self.redundant_skills[skill]=[weight]
                         else:
                             self.redundant_skills[skill].append(weight)
-        print(self.redundant_skills)
         
         # measure redundancy
         redundancy=0

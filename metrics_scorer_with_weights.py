@@ -106,18 +106,18 @@ class MetricScorer:
         if self.team == [] or self.team_skills == {} or self.demand == []:
             raise Exception('Team, list of team_skills, and list of demanded skills cannot be empty!')
 
-        total_weighted_coverage = 0
-        total_weight = 0
-        
-        covered_skills=[]
+        # for each skill, take the max weight that is covered by all members in a team
+        covered_skills={}
         for member, skills in self.team_skills.items():     # dict[member: {skill1: weight1, skill2: weight2, ...}, member2: {}, ...]
                 for skill, weight in skills.items():     # skill1: weight1
                     if skill in self.demand:             # if the corresponding skill is being required by the RFP
                         if skill not in covered_skills:  
                             covered_skills[skill]=weight
                         else:
-                            covered_skills[skill]=max(covered_skills[skill], weight)  # for each skill, take the max weight that is covered by all members in a team
+                            covered_skills[skill]=max(covered_skills[skill], weight)  # take the max skill weight that everyone in a team has
 
+        # measure coverage with respect to skill weights
+        self.coverage=sum(covered_skills.items())/len(self.demand)
         
     def calc_krobust(self):
         """

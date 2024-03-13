@@ -32,17 +32,6 @@ class MetricScorer:
     w_k = 1
 
     def __init__(self):
-        """self.demand = []
-        
-        self.team = []
-        self.team_skills = {}
-        
-        self.redundancy = 0.0
-        self.setsize = 0
-        self.coverage = 0.0
-        self.krobust = 0
-        self.goodness = 0.0"""
-        
         print("Metrics class instantiated")
 
     def reset(self):

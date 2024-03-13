@@ -114,7 +114,7 @@ class MetricScorer:
 
     def calc_krobust(self):
         """
-        If a team's coverage score remains the same before/after removing N members, the k-robust score for that team would be N.
+        If a team's coverage score remains the same before/after removing N members, the k-robust score for that team would be 1.
         """
         # store original values
         og_team = self.team.copy()

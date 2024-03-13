@@ -1,7 +1,6 @@
 # Imports
 import itertools
 from tabulate import tabulate
-import math
 
 # For the metrics scorer
 

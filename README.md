@@ -44,14 +44,14 @@ Problem: *Evaluate the potential of each team using the above-mentioned metrics.
 | $π_{k-robustness}$            | $0$ (you can't remove anyone)                            | $1$ (you can remove *c*) | $0$           | $0$                |
 
 ### **After Normalization:**
-We normalize our data to stay between [0,1] so that the measure is consistent across different teams, team members, team skillsets, etc. Consider:
+We normalize our data to stay between $[0,1]$ so that the measure is consistent across different teams, team members, team skillsets, etc. Consider:
 - $x_i$ : value of metric before normalization
 - $min(x)$: what is the minimum value possible from this metric?
 - $max(x)$: what is the maximum value possible from this metric? For each of the following:
-	- $maxRedundancy$ = (total number of demand skills) * (number of researchers)             /*where each researcher of the team has all the demand skills*/  
-	- $maxSetsize$ = 5                 /* default value (temporarily) */
-	- $maxCoverage$ = (total number of demand skills)
-	- $maxKrobust$ = 1               /* for now */
+	- `maxRedundancy = (total number of demand skills) * (number of researchers)`, where each researcher of the team has all the demand skills.
+	- `maxSetsize = 5`, which is a (configurable) default value.
+	- `maxCoverage = 1`, which reflects the total percentage of demand skills that are satisfied.
+	- `maxKrobust = 1`, if at least one member of the team can be removed.
 
 Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 
@@ -74,9 +74,9 @@ By default, high *redundancy* and *set size* are considered to be "negative" tra
 A problem with this is that sometimes, we may have negative weights, which leads to (1) negative goodness scores, and/or (2) division-by-zero exceptions. When this happens, one way to compute weighted normalization is to adjust those weights, such that the ratios remain the same:
 - Assume the set of weights to be:  $weights = [-1, -1, 1, 1]$.
 - Take the range of the weights: $range=max(weights)-min(weights)$
-- Add the range value to each the weights: $adjusted\_weights=[-1+2, -1+2, 1+2, 1+2]=[1,1,3,3]$
+- Add the range value to each the weights: $adjustedWeights=[-1+2, -1+2, 1+2, 1+2]=[1,1,3,3]$
 
-Computer overall goodness using $adjusted\_weights$ as the new set of metrics:
+Computer overall goodness using $adjustedWeights$ as the new set of metrics:
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 
 | $π_{overallGoodness}$              | $(1\cdot0.333 + 1\cdot0.2 + 3\cdot0.5 + 3\cdot0)/(1+1+3+3)=0.254$| 

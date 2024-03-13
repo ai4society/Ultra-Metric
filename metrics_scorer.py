@@ -167,14 +167,12 @@ class MetricScorer:
         self.goodness = self.w_r*self.redundancy + self.w_s * \
             self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
             
-        print(self.goodness)
-
         """
         Normalize the score. 
         
         At default weights: {w_r: -1, w_s: -1, w_c: 1, w_k: 1}:
-        The worst case would be [horrible coverage/robustness, large redundancy/set_size].
-        The best case would be [complete coverage/robustness, minimal redundancy/set_size]
+        The worst case would be [low coverage/robustness, large redundancy/set_size].
+        The best case would be [high coverage/robustness, minimal redundancy/set_size]
         """
         self.goodness = self.goodness/(self.w_r+self.w_s+self.w_c+self.w_k)
 

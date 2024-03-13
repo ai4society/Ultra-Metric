@@ -1,6 +1,5 @@
 # Imports
 import itertools
-from tabulate import tabulate
 import math
 
 # For the metrics scorer
@@ -32,7 +31,7 @@ class MetricScorer:
     w_k = 0.4
 
     def __init__(self):
-        self.demand = []
+        """self.demand = []
         
         self.team = []
         self.team_skills = {}
@@ -41,7 +40,7 @@ class MetricScorer:
         self.setsize = 0
         self.coverage = 0.0
         self.krobust = 0
-        self.goodness = 0.0
+        self.goodness = 0.0"""
         
         print("Metrics class instantiated")
 
@@ -67,8 +66,10 @@ class MetricScorer:
     def calc_redundancy(self):
         """
         Given RFP requirements (demand[]) and candidate team (team[]), check whether there are any redundant skills amongst the members (using team_skills{}).
-        --> This method currently may also take irrelevant skills into consideration.
+        
+        Each team member should have a certain set of skills, along with each skill's weight present.
         """
+        # team[] and team_skills{} cannot be empty
         if self.team == [] or self.team_skills == {}:
             raise Exception('Team and list of team_skills cannot be empty!')
         
@@ -77,26 +78,24 @@ class MetricScorer:
         for member, skills in self.team_skills.items():     # dict[member: {skill1: weight1, skill2: weight2, ...}, member2: {}, ...]
                 for skill, weight in skills.items():     # skill1: weight1
                     if skill in self.demand:             # if the corresponding skill is being required by the RFP
-                        if skill not in self.redundant_skills:  
-                            self.redundant_skills[skill]=[weight]
+                        if skill not in self.redundant_skills:  # if skill already not logged
+                            self.redundant_skills[skill]=[weight]  
                         else:
-                            self.redundant_skills[skill].append(weight)
+                            self.redundant_skills[skill].append(weight)   # for each skill, gather the list of weights available
         
         # measure redundancy
         redundancy=0
         
         for skill in self.redundant_skills:
-            if len(self.redundant_skills[skill])==1:
+            if len(self.redundant_skills[skill])==1:  # if only one person has a skill X, then there is no redundancy there
                 continue
             else:
-                if max(self.redundant_skills[skill])>=1:
-                    redundancy+=sorted(self.redundant_skills[skill])[-2]  # take the second largest weight and use that for redundancy
+                # if max(self.redundant_skills[skill])>=1:
+                redundancy+=sorted(self.redundant_skills[skill])[-2]  # take the second largest weight and use that for redundancy
             
         """
-        Normalize metric: number_and_weight_of_redundant_skills/total_number_of_RFP_skills
-
+        Normalize the score: total_weight_of_redundant_skills/total_number_of_RFP_skills
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
-        If the redundancy score matches the number of skills needed, then the score is 0. Otherwise, it's in the [0, 1] scale.
         """
         self.redundancy = redundancy/len(self.demand)
 

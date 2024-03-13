@@ -44,14 +44,14 @@ Problem: *Evaluate the potential of each team using the above-mentioned metrics.
 | $π_{k-robustness}$            | $0$ (you can't remove anyone)                            | $1$ (you can remove *c*) | $0$           | $0$                |
 
 ### **After Normalization:**
-We normalize our data to stay between [0,1] so that the measure is consistent across different teams, team members, team skillsets, etc. Consider:
+We normalize our data to stay between $[0,1]$ so that the measure is consistent across different teams, team members, team skillsets, etc. Consider:
 - $x_i$ : value of metric before normalization
 - $min(x)$: what is the minimum value possible from this metric?
 - $max(x)$: what is the maximum value possible from this metric? For each of the following:
 	- $maxRedundancy$ = (total number of demand skills) * (number of researchers)             /*where each researcher of the team has all the demand skills*/  
-	- $maxSetsize$ = 5                 /* default value (temporarily) */
+	- $maxSetsize$ = $5$                /* default value (temporarily) */
 	- $maxCoverage$ = (total number of demand skills)
-	- $maxKrobust$ = 1               /* for now */
+	- $maxKrobust$ = $1$               /* for now */
 
 Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 

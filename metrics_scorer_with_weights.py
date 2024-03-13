@@ -110,7 +110,7 @@ class MetricScorer:
         """
         Given RFP requirements (demand[]) and candidate team (team[]), check how many *required* skills are satisfied by the members. (Ignore skills irrelevant to RFP (demand).)
 
-        Ideally, coverage is the percentage of all skills satisfied by the RFP. If all skills are satisfied, coverage = 100%. If all skills are satisfied, coverage = 100%.
+        Ideally, coverage is the percentage of all skills satisfied by the RFP. If all skills are satisfied, coverage = 100%. 
         With weighted skills, we take the max amount that is satisfied for each skill, and take the summation of all with respect to the RFP's demanded skills.
         """
         if self.team == [] or self.team_skills == {} or self.demand == []:

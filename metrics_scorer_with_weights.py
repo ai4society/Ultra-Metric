@@ -98,7 +98,7 @@ class MetricScorer:
         Normalize the score: total_weight_of_redundant_skills/total_number_of_RFP_skills
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         """
-        self.redundancy = redundancy/len(self.demand)
+        self.redundancy = 1-redundancy/len(self.demand)
 
     def calc_setsize(self, size=5):
         """

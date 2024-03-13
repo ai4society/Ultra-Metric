@@ -190,7 +190,7 @@ class MetricScorer:
         Total score = SUM(w_i*metric_i)
         """
         
-        self.goodness = self.w_r*(1-self.redundancy) + self.w_s*(1-self.setsize) + self.w_c*self.coverage+self.w_k*self.krobust
+        self.goodness = self.w_r*self.redundancy + self.w_s*self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
             
         print(self.goodness)
 
@@ -198,8 +198,8 @@ class MetricScorer:
         Normalize the score. 
         
         At default weights: {w_r: -1, w_s: -1, w_c: 1, w_k: 1}:
-        The worst case would be [horrible coverage/robustness, large redundancy/set_size].
-        The best case would be [complete coverage/robustness, minimal redundancy/set_size]
+        The worst case would be [bad coverage/robustness, large redundancy/set_size].
+        The best case would be [good coverage/robustness, minimal redundancy/set_size]
         """
         self.goodness = self.goodness/(self.w_r+self.w_s+self.w_c+self.w_k)
         # min_goodness=min([self.w_r, self.w_s, self.w_c,self.w_k])
@@ -226,7 +226,7 @@ class MetricScorer:
         print("Team member skills:\t", self.team_skills)
         print("\n")
 
-        print("--------------------METRICS--------------------")
+        print("--------------------METRICS------------------")
         print("Redundancy:\t", self.redundancy)
         print("Set size:\t", self.setsize)
         print("Coverage:\t", self.coverage)
@@ -234,8 +234,8 @@ class MetricScorer:
         print("Total goodness score:\t", self.goodness)
 
     def printScorerTable(self):
-        table = [["Team (right)\nMetric(below)", "T1"], ["Redundancy", self.redundancy], ["Set Size", self.setsize], [
-            "Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness", self.goodness]]
+        table = [["Metric", "Score"], ["Redundancy", self.redundancy], ["Set Size", self.setsize], [
+            "Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness of Team", self.goodness]]
 
         print(tabulate(table, headers='firstrow', tablefmt='grid'))
         

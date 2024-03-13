@@ -1,5 +1,6 @@
 # Imports
 import itertools
+from tabulate import tabulate
 import math
 
 # For the metrics scorer
@@ -133,42 +134,34 @@ class MetricScorer:
     def calc_krobust(self):
         """
         If the number of skills that are satisfied (irrespective of weight) remains the same before/after removing N members, the k-robust score for that team would be 1.
+        
+        Additionally, for k-robustness, instead of a normalized scale from [0,1], we instead use 1 if k>0 or 0 otherwise.
         """
-        # store original values
-        og_team = self.team.copy()
-        og_team_skills = self.team_skills.copy()
-
-        self.calc_coverage()
-        og_coverage = self.coverage
-
+        # check what skills have already been covered (irrespective of weight) in the original team
+        def check_covered_skills(team: list, team_skills: dict):
+            covered_skills=[]
+            for member in team:
+                for skill in team_skills[member]:
+                    if skill not in covered_skills:
+                        covered_skills.append(skill)
+            return covered_skills
+        
+        og_covered_skills=check_covered_skills(self.team, self.team_skills)
+        
         # generate combinations of team members of all sizes i (1 to N)
-        for i in range(1, len(og_team)):
+        for i in range(1, len(self.team)):
             # iterate through each combination of subsets and measure the coverage of team after the member has been removed
-            for subset in itertools.combinations(og_team, i):
-                # define new team/team_skills without the above subset of members
-                self.team = og_team.copy()
-                self.team_skills = og_team_skills.copy()
-                for j in subset:
-                    self.team.remove(j)
-                    self.team_skills.pop(j)
-                self.calc_coverage()
-
-                # if coverage remains the same after the member has been removed, increment the value of k by one
-                if og_coverage == 0 and og_coverage <= self.coverage and self.setsize >= 5:
-                    self.krobust += 1
+            for subset_team in itertools.combinations(self.team, i):
+                # for each subset of members, identify what skills they all have together
+                subset_team_skills={}
+                for subset_member in subset_team:
+                    subset_team_skills[subset_member]=self.team_skills[subset_member]
+                
+                # check whether the new subset team has the same skills as the og team does
+                if og_covered_skills==check_covered_skills(subset_team, subset_team_skills):
+                    # if coverage remains the same after a member has been removed, increment the value of k by one
+                    self.krobust=1
                     break
-
-        # restore the old values of team, team_skills, and coverage
-        self.team = og_team.copy()
-        self.team_skills = og_team_skills.copy()
-        self.coverage = og_coverage
-
-        """
-        Normalize metric:
-        For k-robustness, instead of a scale from [0,1], we instead use 1 if k>0 or 0 otherwise.
-        """
-        if self.krobust > 0:
-            self.krobust = 1
 
     def set_new_weights(self, weights):
         """Adjust the weights (only if negative weights are present): this is used to help normalize them."""

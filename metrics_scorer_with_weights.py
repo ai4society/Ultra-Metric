@@ -98,14 +98,14 @@ class MetricScorer:
         Normalize the score: total_weight_of_redundant_skills/total_number_of_RFP_skills
         Ideally, the 'redundancy' score should only equal the number of skills that the RFP requires (which is known via extraction).
         """
-        self.redundancy = 1-redundancy/len(self.demand)
+        self.redundancy = redundancy/len(self.demand)
 
     def calc_setsize(self, size=5):
         """
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.)
         Default size is set to 5, but this is configurable.
         """
-        self.setsize = 1-(len(self.team)/(size))  # the higher the set size, the less the team size becomes
+        self.setsize = len(self.team)/(size)  # the higher the set size, the less the team size becomes
 
     def calc_coverage(self):
         """
@@ -190,8 +190,7 @@ class MetricScorer:
         Total score = SUM(w_i*metric_i)
         """
         
-        self.goodness = self.w_r*self.redundancy + self.w_s * \
-            self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
+        self.goodness = self.w_r*(1-self.redundancy) + self.w_s*(1-self.setsize) + self.w_c*self.coverage+self.w_k*self.krobust
             
         print(self.goodness)
 

@@ -113,8 +113,9 @@ class MetricScorer:
         Ideally, coverage is the percentage of all skills satisfied by the RFP. If all skills are satisfied, coverage = 100%. 
         With weighted skills, we take the max amount that is satisfied for each skill, and take the summation of all with respect to the RFP's demanded skills.
         """
+        # any information related to skills cannot be empty
         if self.team == [] or self.team_skills == {} or self.demand == []:
-            raise Exception('Team, list of team_skills, and list of demanded skills cannot be empty!')
+            raise Exception("Team, list of team_skills, and list of demanded skills cannot be empty! If any of the groups do not have any skills listed, use a placeholder value of 'nan' and set the weight equal to 0.")
 
         # for each skill, take the max weight that is covered by all members in a team
         covered_skills={}

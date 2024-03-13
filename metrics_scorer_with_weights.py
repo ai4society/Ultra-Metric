@@ -2,9 +2,9 @@
 import itertools
 from tabulate import tabulate
 
-# For the metrics scorer
+# For the metrics scorer (with weighted skills)
 
-class MetricScorer:
+class WeightedSkillMetricScorer:
 
     # demand
     # RFP-required skillset (Note: These are not exclusively mentioned; they will be extracted.)

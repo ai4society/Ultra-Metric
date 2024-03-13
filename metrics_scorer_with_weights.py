@@ -223,4 +223,3 @@ class MetricScorer:
             "Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness of Team", self.goodness]]
 
         print(tabulate(table, headers='firstrow', tablefmt='grid'))
-        

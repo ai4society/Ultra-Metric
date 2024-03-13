@@ -4,7 +4,6 @@ from tabulate import tabulate
 
 # For the metrics scorer
 
-
 class MetricScorer:
 
     # demand

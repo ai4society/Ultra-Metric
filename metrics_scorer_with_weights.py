@@ -102,13 +102,9 @@ class MetricScorer:
     def calc_setsize(self, size=5):
         """
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.)
+        Default size is set to 5, but this is configurable.
         """
-        self.setsize = len(self.team)
-
-        """
-        Normalize metric: normalized_score = (x_i – min(x)) / (max(x) – min(x))
-        """
-        self.setsize = (self.setsize)/(size)
+        self.setsize = 1-(len(self.team)/(size))  # the higher the set size, the less the team size becomes
 
     def calc_coverage(self):
         """

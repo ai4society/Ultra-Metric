@@ -189,11 +189,8 @@ class MetricScorer:
         """
         Total score = SUM(w_i*metric_i)
         """
-        
         self.goodness = self.w_r*self.redundancy + self.w_s*self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
             
-        print(self.goodness)
-
         """
         Normalize the score. 
         

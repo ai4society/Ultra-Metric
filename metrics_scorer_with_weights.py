@@ -75,7 +75,7 @@ class MetricScorer:
         
         # measure redundancy
         redundancy=0
-        
+
         for skill in self.redundant_skills:
             if len(self.redundant_skills[skill])==1:  # if only one person has a skill X, then there is no redundancy there
                 continue
@@ -94,7 +94,7 @@ class MetricScorer:
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.)
         Default size is set to 5, but this is configurable.
         """
-        self.setsize = len(self.team)/(size)  # the higher the set size, the less the team size becomes
+        self.setsize = len(self.team)/(size)  # the higher the set size, the less chances are present for a team to be recommended
 
     def calc_coverage(self):
         """

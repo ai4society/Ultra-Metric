@@ -74,9 +74,9 @@ By default, high *redundancy* and *set size* are considered to be "negative" tra
 A problem with this is that sometimes, we may have negative weights, which leads to (1) negative goodness scores, and/or (2) division-by-zero exceptions. When this happens, one way to compute weighted normalization is to adjust those weights, such that the ratios remain the same:
 - Assume the set of weights to be:  $weights = [-1, -1, 1, 1]$.
 - Take the range of the weights: $range=max(weights)-min(weights)$
-- Add the range value to each the weights: $adjusted\_weights=[-1+2, -1+2, 1+2, 1+2]=[1,1,3,3]$
+- Add the range value to each the weights: $adjustedWeights=[-1+2, -1+2, 1+2, 1+2]=[1,1,3,3]$
 
-Computer overall goodness using $adjusted\_weights$ as the new set of metrics:
+Computer overall goodness using $adjustedWeights$ as the new set of metrics:
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 
 | $π_{overallGoodness}$              | $(1\cdot0.333 + 1\cdot0.2 + 3\cdot0.5 + 3\cdot0)/(1+1+3+3)=0.254$| 

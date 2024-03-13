@@ -26,10 +26,10 @@ class MetricScorer:
     redundant_skills={}
     
     # weights for metrics (redundancy, setsize, coverage, k-robustness)
-    w_r = 0.1
-    w_s = 0.1
-    w_c = 0.4
-    w_k = 0.4
+    w_r = -1
+    w_s = -1
+    w_c = 1
+    w_k = 1
 
     def __init__(self):
         """self.demand = []

@@ -178,10 +178,6 @@ class MetricScorer:
         The best case would be [complete coverage/robustness, minimal redundancy/set_size]
         """
         self.goodness = self.goodness/(self.w_r+self.w_s+self.w_c+self.w_k)
-        # min_goodness=min([self.w_r, self.w_s, self.w_c,self.w_k])
-        # max_goodness=max([self.w_r, self.w_s, self.w_c,self.w_k])
-        # self.goodness = (self.goodness-min_goodness) / \
-        #    (max_goodness-min_goodness)
 
     def run_metrics(self):
         # run metrics

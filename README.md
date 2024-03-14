@@ -57,7 +57,7 @@ Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 
 | Team (right) / Metric (below) | $T_1$                                                     | 
 | ----------------------------- | ------------------------------------------------------ | 
-| $π_{redundancyNorm}$              | $(2-1)/(len(demand)\cdot len(team\_size) -1) = (2-1)/(4*1-1) = 0.333$| 
+| $π_{redundancyNorm}$              | $(2-1)/(len(demand)\cdot len(teamSize) -1) = (2-1)/(4*1-1) = 0.333$| 
 | $π_{setsizeNorm}$                 | $1/5 = 0.2$                                                      | 
 | $π_{coverageNorm}$                | $2/4 = 0.50$ |
 | $π_{k-robustnessNorm}$            | $0$ (you can't remove anyone)                            |

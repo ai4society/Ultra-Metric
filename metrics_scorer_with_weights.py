@@ -201,7 +201,7 @@ class WeightedSkillMetricScorer:
         self.goodness_measure()
         print("Metrics run")
 
-    def printScorer(self):
+    def print_scorer(self):
         print("--------------------DEMAND--------------------")
         print("Skills needed:\t", self.demand)
         print("\n")
@@ -211,14 +211,14 @@ class WeightedSkillMetricScorer:
         print("Team member skills:\t", self.team_skills)
         print("\n")
 
-        print("--------------------METRICS------------------")
+        print("--------------------METRICS--------------------")
         print("Redundancy:\t", self.redundancy)
         print("Set size:\t", self.setsize)
         print("Coverage:\t", self.coverage)
         print("k-Robustness:\t", self.krobust)
         print("Total goodness score:\t", self.goodness)
 
-    def printScorerTable(self):
+    def print_scorer_table(self):
         table = [["Metric", "Score"], ["Redundancy", self.redundancy], ["Set Size", self.setsize], [
             "Coverage", self.coverage], ["k-Robustness", self.krobust], ["Overall Goodness of Team", self.goodness]]
 

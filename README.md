@@ -41,7 +41,7 @@ Problem: *Evaluate the goodness of each team using the above-mentioned metrics.*
 | $π_{redundancy}$              | $0$ *(team of one member, no redundant skills)*                 | $2$ *(since $s_2$ and $s_3$ are redundant)* | $0$   | $2$                                                              |
 | $π_{setsize}$                 | $1$ *(number of people in the team)*                            | $3$                                         | $2$   | $3$                                                              |
 | $π_{coverage}$                | $-2$ *(indicates that this team is short of two needed skills)* | $0$                                         | $0$   | $-1$                                                             |
-| $π_{k-robustness}$            | $0$ (you can't remove anyone)                                   | $1$ (you can remove *c*)                    | $0$   | $1$ *(you can remove $a$ or $d$, and coverage would not change)* |
+| $π_{k-robustness}$            | $0$ (you can't remove anyone)                                   | $1$ (you can remove *c*)                    | $0$   | $1$ *(you can remove *a* or *d*, and coverage would not change)* |
 
 ### **After Normalization:**
 We normalize our data to stay between $[0,1]$ so that the measure is consistent across different teams, team members, team skillsets, etc. Consider:

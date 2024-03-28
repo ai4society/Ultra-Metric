@@ -17,7 +17,7 @@ Code and examples for how to use metrics for the output of any team / group / it
 	- Team of researchers $T_i = {a, b, c, d, ..., N}$
 	- Researcher skills = $\{a: [s_1, s_2, ..., s_a], b: [s_1, s_2, ..., s_b], ..., N: [s_1, s_2, ..., s_n]\}$
 
-## Example
+## Example with Unweighted Skills
 
 - Demand: $\{s_1, s_2, s_3, s_4\}$
 - Supply:
@@ -55,12 +55,12 @@ We normalize our data to stay between $[0,1]$ so that the measure is consistent 
 
 Then, normalized score = $(x_i – min(x)) / (max(x) – min(x))$
 
-| Team (right) / Metric (below) | $T_1$                         | $T_2$       | $T_3$       | $T_4$       |
-| ----------------------------- | ----------------------------- | ----------- | ----------- | ----------- |
-| $π_{redundancyNorm}$          | $0/4=0$                       | $2/4=0.5$   | $0/4=0$     | $2/4=0.5$   |
-| $π_{setsizeNorm}$             | $1/5 = 0.2$                   | $3/5 = 0.6$ | $2/5 = 0.4$ | $3/5 = 0.6$ |
-| $π_{coverageNorm}$            | $2/4 = 0.50$                  | $4/4=1$     | $4/4=1$     | $3/4=0.75$  |
-| $π_{k-robustnessNorm}$        | $0$ (you can't remove anyone) | $1$         | $0$         | $1$         |
+| Team (right) / <br>Metric (below) | $T_1$                         | $T_2$       | $T_3$       | $T_4$       |
+| --------------------------------- | ----------------------------- | ----------- | ----------- | ----------- |
+| $π_{redundancyNorm}$              | $0/4=0$                       | $2/4=0.5$   | $0/4=0$     | $2/4=0.5$   |
+| $π_{setsizeNorm}$                 | $1/5 = 0.2$                   | $3/5 = 0.6$ | $2/5 = 0.4$ | $3/5 = 0.6$ |
+| $π_{coverageNorm}$                | $2/4 = 0.50$                  | $4/4=1$     | $4/4=1$     | $3/4=0.75$  |
+| $π_{k-robustnessNorm}$            | $0$ (you can't remove anyone) | $1$         | $0$         | $1$         |
 
 ### **Computing the Overall Goodness Metric:**
 **Each metric has a weight. By default, they're:**
@@ -91,3 +91,41 @@ Now, compute overall goodness using $adjustedWeights$ as the new set of metrics:
 | Team (right) / Metric (below) | $T_1$                                                                | $T_2$   | $T_3$   | $T_4$   |
 | ----------------------------- | -------------------------------------------------------------------- | ------- | ------- | ------- |
 | $π_{overallGoodness}$         | $(0.11\cdot0.0 + 0.09\cdot0.2 + 0.8\cdot0.5 + 0.0\cdot0)/(1.0)=0.58$ | $0.909$ | $0.836$ | $0.709$ |
+## Example with Weighted Skills
+- Demand: $\{s_1, s_2, s_3, s_4\}$
+- Supply:
+	- Consider the following teams in this format: *team_name = {set_of_researchers}*
+		- $T_1 = \{a, b, c\}$
+		- $T_2 = \{b, d, e\}$
+	- Researcher skills: *researcher_name = {set_of_skills}*:
+		- $a = \{s_1:0.5, s_2:0.15\}$
+		- $b = \{s_3:1, s_1:0.1\}$
+		- $c = \{s_2:0.75, s_3:0.5\}$
+		- $d = \{s_2:0.25\}$
+		- $e = \{s_1:0.1, s_4:0.2, s_5:0.8\}$
+
+Problem: *Evaluate the goodness of each team using the above-mentioned metrics.*
+### Before Normalization: 
+| Team (right) / Metric (below) | $T_1$                                                                                                         | $T_2$                                               |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| $π_{redundancy}$              | $0.1+0.15+0.5+0$ *( take the 2nd largest skill value that is present amongst all the members)*                | $0.1+0+0+0$ *(since $s_1$ and $s_3$ are redundant)* |
+| $π_{setsize}$                 | $3$ *(number of people in the team)*                                                                          | $3$                                                 |
+| $π_{coverage}$                | $0.5+0.75+1+0$ *(max skill weight per skill)*                                                                 | $0.1+0.25+1+0.2$                                    |
+| $π_{k-robustness}$            | $1$ (you can remove *b* or *c*, and $\{s_1, s_2, s_3\}$ would still be covered somehow, regardless of weight) | $0$ (you can't remove anyone)                       |
+### After Normalization:
+| Team (right) / <br>Metric (below) | $T_1$             | $T_2$           |
+| --------------------------------- | ----------------- | --------------- |
+| $π_{redundancyNorm}$              | $0.75/4=0.1875$   | $1.1/4=0.1$     |
+| $π_{setsizeNorm}$                 | $3/5 = 0.6$       | $3/5 = 0.6$     |
+| $π_{coverageNorm}$                | $2.25/4 = 0.5625$ | $1.55/4=0.3875$ |
+| $π_{k-robustnessNorm}$            | $1$               | $0$             |
+### **Computing the Overall Goodness Metric:**
+Following the example with unweighted skills, consider the default weights for each of the metrics to be: 
+- Redundancy: $1$
+- Set size: $1$
+- Coverage: $3$
+- k-Robustness: $3$
+
+| Team (right) / <br>Metric (below) | $T_1$                                                                  | $T_2$    |
+| --------------------------------- | ---------------------------------------------------------------------- | -------- |
+| $π_{overallGoodness}$             | $(1\cdot0.1875 + 1\cdot0.6 + 3\cdot0.5625 + 3\cdot1)/(1+1+3+3)=0.6844$ | $0.2328$ |

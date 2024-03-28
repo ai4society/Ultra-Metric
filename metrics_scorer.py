@@ -4,6 +4,7 @@ from tabulate import tabulate
 
 # For the metrics scorer
 
+
 class MetricScorer:
 
     # demand
@@ -56,10 +57,10 @@ class MetricScorer:
         """
         if self.team == [] or self.team_skills == {}:
             raise Exception('Team and list of team_skills cannot be empty!')
-        
-        redundant_skills=[]
-        skills_covered=[]
-        
+
+        redundant_skills = []
+        skills_covered = []
+
         for i in self.team:
             try:
                 # check the number of redundant skills
@@ -86,7 +87,8 @@ class MetricScorer:
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.)
         Default size is set to 5, but this is configurable.
         """
-        self.setsize = len(self.team)/(size)  # the higher the set size, the less the team size becomes
+        self.setsize = len(
+            self.team)/(size)  # the higher the set size, the less the team size becomes
 
     def calc_coverage(self):
         """
@@ -103,9 +105,9 @@ class MetricScorer:
             for j in self.team_skills[i]:
                 if j not in covered_skills and j in self.demand:
                     covered_skills.append(j)
-        
+
         # measure coverage
-        self.coverage=len(covered_skills)/len(self.demand)
+        self.coverage = len(covered_skills)/len(self.demand)
 
     def calc_krobust(self):
         """
@@ -113,60 +115,60 @@ class MetricScorer:
         """
         # check what skills have already been covered in the original team
         def check_covered_skills(team: list, team_skills: dict):
-            covered_skills=[]
+            covered_skills = []
             for member in team:
                 for skill in team_skills[member]:
                     if skill not in covered_skills:
                         covered_skills.append(skill)
             return covered_skills
-        
-        og_covered_skills=check_covered_skills(self.team, self.team_skills)
+
+        og_covered_skills = check_covered_skills(self.team, self.team_skills)
 
         # generate combinations of team members of all sizes i (1 to N)
         for i in range(1, len(self.team)):
             # iterate through each combination of subsets and measure the coverage of team after the member has been removed
             for subset_team in itertools.combinations(self.team, i):
                 # for each subset of members, identify what skills they all have together
-                subset_team_skills={}
+                subset_team_skills = {}
                 for subset_member in subset_team:
-                    subset_team_skills[subset_member]=self.team_skills[subset_member]
-                
+                    subset_team_skills[subset_member] = self.team_skills[subset_member]
+
                 # check whether the new subset team has the same skills as the og team does
-                if og_covered_skills==check_covered_skills(subset_team, subset_team_skills):
+                if og_covered_skills == check_covered_skills(subset_team, subset_team_skills):
                     # if coverage remains the same after a member has been removed, increment the value of k by one
-                    self.krobust=1
+                    self.krobust = 1
                     break
 
     def set_new_weights(self, weights):
         """Adjust the weights (only if negative weights are present): this is used to help normalize them."""
-        if min(weights)<0:
+        if min(weights) < 0:
             range_of_weights = max(weights) - min(weights)
             for i in range(len(weights)):
                 weights[i] += range_of_weights
-            
+
         # if min(weights) is still negative => all weights are equal
-        if min(weights)<0:
+        if min(weights) < 0:
             for i in range(len(weights)):
                 weights[i] *= -1
 
         """Normalize the weights."""
-        self.w_r=weights[0]/sum(weights)
-        self.w_s=weights[1]/sum(weights)
-        self.w_c=weights[2]/sum(weights)
-        self.w_k=weights[3]/sum(weights)
+        self.w_r = weights[0]/sum(weights)
+        self.w_s = weights[1]/sum(weights)
+        self.w_c = weights[2]/sum(weights)
+        self.w_k = weights[3]/sum(weights)
 
     def get_weights(self):
         """Return existing weights."""
         return [self.w_r, self.w_s, self.w_c, self.w_k]
-    
+
     def goodness_measure(self):
         """
         Total score = SUM(w_i*metric_i)
         """
-        
+
         self.goodness = self.w_r*self.redundancy + self.w_s * \
             self.setsize + self.w_c*self.coverage+self.w_k*self.krobust
-            
+
         """
         Normalize the score. 
         

@@ -66,7 +66,8 @@ class MetricScorer:
                 # check the number of redundant skills
                 for j in self.team_skills[i]:
                     if j in self.demand:
-                        if j not in skills_covered:   # check if skill is relevant to self.demand(), and if it's a redundant one or not
+                        # check if skill is relevant to self.demand(), and if it's redundant or not
+                        if j not in skills_covered:   
                             skills_covered.append(j)
                         elif j in skills_covered:
                             if j not in redundant_skills:
@@ -87,8 +88,7 @@ class MetricScorer:
         Return total team size. (Max size should ideally be (total amount of budget granted by funding agency)/$50K.)
         Default size is set to 5, but this is configurable.
         """
-        self.setsize = len(
-            self.team)/(size)  # the higher the set size, the less the team size becomes
+        self.setsize = len(self.team)/(size)  # the higher the set size, the less the team size becomes
 
     def calc_coverage(self):
         """

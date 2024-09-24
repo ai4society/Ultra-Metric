@@ -142,3 +142,16 @@ Following the example with unweighted skills, consider the default weights for e
 | Team (right) / <br>Metric (below) | $T_1$                                                                  | $T_2$    |
 | --------------------------------- | ---------------------------------------------------------------------- | -------- |
 | $π_{overallGoodness}$             | $(1\cdot0.1875 + 1\cdot0.6 + 3\cdot0.5625 + 3\cdot1)/(1+1+3+3)=0.6844$ | $0.2328$ |
+
+## BibTeX
+If you find this metric useful in your research, please cite it using the following BibTeX entry:
+```bibtex
+@inproceedings{valluru2024promoting,
+  title={Promoting Research Collaboration with Open Data Driven Team Recommendation in Response to Call for Proposals},
+  author={Valluru, Siva Likitha and Srivastava, Biplav and Paladi, Sai Teja and Yan, Siwen and Natarajan, Sriraam},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={38},
+  number={21},
+  pages={22833--22841},
+  year={2024}
+}

@@ -7,14 +7,14 @@ Code and examples for how to use metrics for the output of any team / group / it
 ## Table of Contents
 - [Metrics Used](#metrics-used)
 - [Terminology](#terminology)
-- [Example with Unweighted Skills](#example_with_unweighted_skills)
-  - [Before Normalization](#before_norm_unweighted)
-  - [After Normalization](#after_norm_unweighted)
-  - [Computing the Overall Goodness Metric](#overall_goodness_unweighted)
-- [Example with Weighted Skills](#example_with_weighted_skills)
-  - [Before Normalization](#before_norm_weighted)
-  - [After Normalization](#before_norm_weighted)
-  - [Computing the Overall Goodness Metric](#overall_goodness_weighted)
+- [Example with Unweighted Skills](#example-with-unweighted-skills)
+  - [Before Normalization](#before-normalization)
+  - [After Normalization](#after-normalization)
+  - [Computing the Overall Goodness Metric](#computing-the-overall-goodness-metric)
+- [Example with Weighted Skills](#example-with-weighted-skills)
+  - [Before Normalization](#before-normalization-1)
+  - [After Normalization](#after-normalization-1)
+  - [Computing the Overall Goodness Metric](#computing-the-overall-goodness-metric-1)
 
 ## Metrics Used 
 - Redundancy: what is the percentage of skills shared amongst 2+ researchers? (How many researchers have common skills?)

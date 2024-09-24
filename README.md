@@ -15,7 +15,7 @@ Code and examples for how to use metrics for the output of any team / group / it
   - [Before Normalization](#before-normalization-1)
   - [After Normalization](#after-normalization-1)
   - [Computing the Overall Goodness Metric](#computing-the-overall-goodness-metric-1)
-- [BibTex](#bibtex)
+- [BibTeX](#bibtex)
 
 ## Metrics Used 
 - Redundancy: what is the percentage of skills shared amongst 2+ researchers? (How many researchers have common skills?)

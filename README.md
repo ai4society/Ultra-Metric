@@ -1,7 +1,8 @@
 # Ultra-Metric
 Code and examples for how to use metrics for the output of any team / group / item recommendation system.
-- [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py) - code/implementation for each of the 4 metrics described below
-- [metrics_notebook.ipynb](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_notebook.ipynb) - shows example for how to use *metrics_scorer.py.*
+- [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py) - code/implementation for each of the 4 metrics described below, given unweighted skillsets.
+- [metrics_scorer_with_skill_weights.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer_with_skill_weights.py) - code/implementation for each of the 4 metrics described below, given weighted skillsets.
+- [metrics_notebook.ipynb](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_notebook.ipynb) - shows example for how to use the scorer files.
 
 ## Metrics Used
 - Redundancy: what is the percentage of skills shared amongst 2+ researchers? (How many researchers have common skills?)

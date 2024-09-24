@@ -4,13 +4,25 @@ Code and examples for how to use metrics for the output of any team / group / it
 - [metrics_scorer_with_skill_weights.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer_with_skill_weights.py) - code/implementation for each of the 4 metrics described below, given weighted skillsets.
 - [metrics_notebook.ipynb](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_notebook.ipynb) - shows example for how to use the scorer files.
 
-## Metrics Used
+## Table of Contents
+- [Metrics Used](#metrics-used)
+- [Terminology](#terminology)
+- [Example with Unweighted Skills](#example_with_unweighted_skills)
+  - [Before Normalization](#before_norm_unweighted)
+  - [After Normalization](#after_norm_unweighted)
+  - [Computing the Overall Goodness Metric](#overall_goodness_unweighted)
+- [Example with Weighted Skills](#example_with_weighted_skills)
+  - [Before Normalization](#before_norm_weighted)
+  - [After Normalization](#before_norm_weighted)
+  - [Computing the Overall Goodness Metric](#overall_goodness_weighted)
+
+## Metrics Used 
 - Redundancy: what is the percentage of skills shared amongst 2+ researchers? (How many researchers have common skills?)
 - Set size: what is the team size? (Usually determined by total_funding_amount/$50K)
 - Coverage: how many skills are covered by researchers and how many are still required by the RFP?
 - k-Robustness: how many team members can we remove before the team starts to fall apart?
 
-## Terminology
+## Terminology 
 
 - Demand: *What kind of skills may be required/desired by the RFP?*
 	- $\{ s_1, s_2, ..., s_m \}$
@@ -18,7 +30,7 @@ Code and examples for how to use metrics for the output of any team / group / it
 	- Team of researchers $T_i = {a, b, c, d, ..., N}$
 	- Researcher skills = $\{a: [s_1, s_2, ..., s_a], b: [s_1, s_2, ..., s_b], ..., N: [s_1, s_2, ..., s_n]\}$
 
-## Example with Unweighted Skills
+## Example with Unweighted Skills 
 
 - Demand: $\{s_1, s_2, s_3, s_4\}$
 - Supply:

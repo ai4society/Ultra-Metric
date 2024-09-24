@@ -1,4 +1,4 @@
-# Ultra-Metric
+# ULTRA-Metric
 Code and examples for how to use metrics for the output of any team / group / item recommendation system.
 - [metrics_scorer.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer.py) - code/implementation for each of the 4 metrics described below, given unweighted skillsets.
 - [metrics_scorer_with_skill_weights.py](https://github.com/ai4society/Ultra-Metric/blob/main/metrics_scorer_with_skill_weights.py) - code/implementation for each of the 4 metrics described below, given weighted skillsets.
